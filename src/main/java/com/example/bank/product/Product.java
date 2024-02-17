@@ -34,7 +34,7 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     @NotBlank(message = "Product status is mandatory")
-    @Column(name = "status", columnDefinition = "varchar(50)", nullable = false)
+    @Column(name = "product_status", columnDefinition = "varchar(50)", nullable = false)
     private ProductStatus productStatus;
 
     @Enumerated(EnumType.STRING)
@@ -59,7 +59,7 @@ public class Product {
     private LocalDateTime lastModifiedTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "manager_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn(name = "manager_id", referencedColumnName = "id", nullable = false)
     Manager manager;
 
 }

@@ -25,9 +25,9 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @NotBlank(message = "Transaction type is mandatory")
-    @Column(name = "type", columnDefinition = "byte", nullable = false) // нужно ли делать кастомную аннотацию Between?
+    @Column(name = "transaction_type",nullable = false) // нужно ли делать кастомную аннотацию Between?
     private TransactionType transactionType;
 
     @NotBlank(message = "Transaction amount is mandatory") //?
@@ -42,9 +42,9 @@ public class Transaction {
     private LocalDateTime creationTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn (name = "debit_account_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn (name = "debit_account_id", referencedColumnName = "id", nullable = false)
     Account debitAccount;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn (name = "credit_account_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn (name = "credit_account_id", referencedColumnName = "id", nullable = false)
     Account creditAccount;
 }

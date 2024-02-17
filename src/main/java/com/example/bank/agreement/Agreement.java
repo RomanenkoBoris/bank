@@ -33,7 +33,7 @@ public class Agreement {
 
     @Enumerated(EnumType.STRING)
     @NotBlank(message = "Agreement status is mandatory")
-    @Column(name = "status", columnDefinition = "varchar(50)", nullable = false)
+    @Column(name = "agreement_status", columnDefinition = "varchar(50)", nullable = false)
     private ProductStatus agreementStatus;
 
     @NotBlank(message = "Agreement sum is mandatory")
@@ -49,11 +49,11 @@ public class Agreement {
     private LocalDateTime lastModifiedTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "product_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     Product product;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn (name = "account_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn (name = "account_id", referencedColumnName = "id", nullable = false)
     Account account;
 
 }

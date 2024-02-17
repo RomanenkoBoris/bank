@@ -1,6 +1,7 @@
 package com.example.bank.account;
 
 import com.example.bank.client.Client;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -34,12 +35,12 @@ public class Account {
 
     @Enumerated(EnumType.STRING)
     @NotBlank(message = "Account type is mandatory")
-    @Column(name = "type", columnDefinition = "varchar(50)", nullable = false)
+    @Column(name = "account_type", columnDefinition = "varchar(50)", nullable = false)
     private AccountType accountType;
 
     @Enumerated(EnumType.STRING)
     @NotBlank(message = "Account status is mandatory")
-    @Column(name = "status", columnDefinition = "varchar(50)", nullable = false)
+    @Column(name = "account_status", columnDefinition = "varchar(50)", nullable = false)
     private AccountStatus accountStatus;
 
     @NotBlank(message = "Account balance is mandatory") //?
@@ -60,6 +61,7 @@ public class Account {
     private LocalDateTime lastModifiedTime;
 
     @ManyToOne(/*mappedBy = "account",*/ cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //?
-    @JoinColumn (name = "client_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn (name = "client_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnore
     private Client client;
 }

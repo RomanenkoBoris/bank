@@ -27,13 +27,13 @@ public class Client {
     private Long id;
     @Enumerated(EnumType.STRING)
     @NotBlank (message = "Client status is mandatory") // можно ли задать дефолтное значение?
-    @Column(name = "status", columnDefinition = "VARCHAR(20)", nullable = false)
+    @Column(name = "client_status", columnDefinition = "VARCHAR(20)", nullable = false)
     private ClientStatus clientStatus;
 
     @Pattern(regexp = "[0-9]{11}", message = "Tax code must be always 11 numbers")
     @NotBlank (message = "Client tax code is mandatory")
-    @Column(name = "tax_code", columnDefinition = "integer(11)", nullable = false, unique = true)
-    private int taxCode;
+    @Column(name = "tax_code", columnDefinition = "BIGINT(11)", nullable = false, unique = true)
+    private long taxCode;
 
     @Length(min = 1, max = 50, message = "Name must be from 1 to 50 characters")
     @NotBlank (message = "Client name is mandatory")
@@ -73,7 +73,7 @@ public class Client {
     private LocalDateTime lastModifiedTime;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // почему немогу задать mappedBy?
-    @JoinColumn (name = "manager_id", referencedColumnName = "id", unique = true, nullable = false)
+    @JoinColumn (name = "manager_id", referencedColumnName = "id", nullable = false)
     private Manager manager;
 
 }
