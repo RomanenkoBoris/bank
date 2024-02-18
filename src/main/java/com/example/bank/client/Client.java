@@ -1,9 +1,12 @@
 package com.example.bank.client;
 
 import com.example.bank.manager.Manager;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,17 +24,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "clients")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
-    @NotBlank (message = "Client status is mandatory") // можно ли задать дефолтное значение?
+    @NotNull(message = "Client status is mandatory") // можно ли задать дефолтное значение?
     @Column(name = "client_status", columnDefinition = "VARCHAR(20)", nullable = false)
     private ClientStatus clientStatus;
 
-    @Pattern(regexp = "[0-9]{11}", message = "Tax code must be always 11 numbers")
-    @NotBlank (message = "Client tax code is mandatory")
+    // @Pattern(regexp = "[0-9]{11}", message = "Tax code must be always 11 numbers")
+    @NotNull (message = "Client tax code is mandatory")
     @Column(name = "tax_code", columnDefinition = "BIGINT(11)", nullable = false, unique = true)
     private long taxCode;
 

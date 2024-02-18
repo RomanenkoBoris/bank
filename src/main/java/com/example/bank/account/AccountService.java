@@ -32,17 +32,17 @@ public class AccountService {
 
     protected ResponseEntity<Account> updateAccount (Long id, Account account){
         if (accountRepository.existsById(id) && account.getId().equals(id)){
-            //accountRepository.save(account); - ???
-            Account tmp = accountRepository.getReferenceById(id);
-            tmp.setName(account.getName());
-            tmp.setAccountType(account.getAccountType());
-            tmp.setAccountStatus(account.getAccountStatus());
-            tmp.setBalance(account.getBalance());
-            tmp.setCurrencyCode(account.getCurrencyCode());
-            tmp.setCreationTime(account.getCreationTime());
-            tmp.setLastModifiedTime(account.getLastModifiedTime());
-            tmp.setClient(account.getClient());
-            return new ResponseEntity<>(tmp, HttpStatus.OK);
+            accountRepository.save(account);
+//            Account tmp = accountRepository.getReferenceById(id);
+//            tmp.setName(account.getName());
+//            tmp.setAccountType(account.getAccountType());
+//            tmp.setAccountStatus(account.getAccountStatus());
+//            tmp.setBalance(account.getBalance());
+//            tmp.setCurrencyCode(account.getCurrencyCode());
+//            tmp.setCreationTime(account.getCreationTime());
+//            tmp.setLastModifiedTime(account.getLastModifiedTime());
+//            tmp.setClient(account.getClient());
+            return new ResponseEntity<>(account, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

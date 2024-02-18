@@ -1,9 +1,14 @@
 package com.example.bank.account;
 
 import com.example.bank.client.Client;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -34,21 +39,22 @@ public class Account {
     private String name;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Account type is mandatory")
+    @NotNull(message = "Account type is mandatory")
     @Column(name = "account_type", columnDefinition = "varchar(50)", nullable = false)
     private AccountType accountType;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Account status is mandatory")
+    @NotNull(message = "Account status is mandatory")
     @Column(name = "account_status", columnDefinition = "varchar(50)", nullable = false)
     private AccountStatus accountStatus;
 
-    @NotBlank(message = "Account balance is mandatory") //?
+    @NotNull(message = "Account balance is mandatory")
+    @DecimalMin("0.00")
     @Column(columnDefinition = "decimal(15,2) default '0.0'", nullable = false)
     private BigDecimal balance;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Account status is mandatory")
+    @NotNull(message = "Currency code is mandatory")
     @Column(name = "currency_code", columnDefinition = "varchar(50)", nullable = false)
     private CurrencyCode currencyCode;
 
@@ -62,6 +68,6 @@ public class Account {
 
     @ManyToOne(/*mappedBy = "account",*/ cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //?
     @JoinColumn (name = "client_id", referencedColumnName = "id", nullable = false)
-    @JsonIgnore
+    @JsonIdentityReference(alwaysAsId = true)
     private Client client;
 }
