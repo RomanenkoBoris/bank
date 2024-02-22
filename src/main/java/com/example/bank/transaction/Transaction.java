@@ -2,8 +2,12 @@ package com.example.bank.transaction;
 
 import com.example.bank.account.Account;
 import com.example.bank.account.AccountType;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "transactions")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Transaction {
 
     @Id
@@ -26,11 +31,11 @@ public class Transaction {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Transaction type is mandatory")
+    @NotNull(message = "Transaction type is mandatory")
     @Column(name = "transaction_type",nullable = false) // нужно ли делать кастомную аннотацию Between?
     private TransactionType transactionType;
 
-    @NotBlank(message = "Transaction amount is mandatory") //?
+    @NotNull(message = "Transaction amount is mandatory") //?
     @Column(columnDefinition = "decimal(12,4)", nullable = false)
     private BigDecimal amount;
 
@@ -43,8 +48,10 @@ public class Transaction {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "debit_account_id", referencedColumnName = "id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     Account debitAccount;
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "credit_account_id", referencedColumnName = "id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     Account creditAccount;
 }

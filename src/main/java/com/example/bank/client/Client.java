@@ -2,6 +2,7 @@ package com.example.bank.client;
 
 import com.example.bank.manager.Manager;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -76,8 +77,9 @@ public class Client {
     @Column(name = "updated_at")
     private LocalDateTime lastModifiedTime;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE}) // почему немогу задать mappedBy?
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "manager_id", referencedColumnName = "id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     private Manager manager;
 
 }

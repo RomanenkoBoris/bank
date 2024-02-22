@@ -1,8 +1,11 @@
 package com.example.bank.manager;
 
 import com.example.bank.client.ClientStatus;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,6 +23,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "managers")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Manager {
 
     @Id
@@ -39,7 +43,7 @@ public class Manager {
     private String lastName;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank (message = "Manager status is mandatory")
+    @NotNull(message = "Manager status is mandatory")
     @Column(name = "manager_status", columnDefinition = "VARCHAR(50)", nullable = false)
     private ManagerStatus managerStatus;
 

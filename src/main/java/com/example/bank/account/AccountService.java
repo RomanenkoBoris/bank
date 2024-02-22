@@ -12,7 +12,7 @@ import java.util.Optional;
 public class AccountService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
 
     protected ResponseEntity<Account> createAccount(Account account){
@@ -32,17 +32,16 @@ public class AccountService {
 
     protected ResponseEntity<Account> updateAccount (Long id, Account account){
         if (accountRepository.existsById(id) && account.getId().equals(id)){
-            accountRepository.save(account);
-//            Account tmp = accountRepository.getReferenceById(id);
-//            tmp.setName(account.getName());
-//            tmp.setAccountType(account.getAccountType());
-//            tmp.setAccountStatus(account.getAccountStatus());
-//            tmp.setBalance(account.getBalance());
-//            tmp.setCurrencyCode(account.getCurrencyCode());
-//            tmp.setCreationTime(account.getCreationTime());
-//            tmp.setLastModifiedTime(account.getLastModifiedTime());
-//            tmp.setClient(account.getClient());
-            return new ResponseEntity<>(account, HttpStatus.OK);
+            Account tmp = accountRepository.findById(id).orElse(null);
+            tmp.setName(account.getName());
+            tmp.setAccountType(account.getAccountType());
+            tmp.setAccountStatus(account.getAccountStatus());
+            tmp.setBalance(account.getBalance());
+            tmp.setCurrencyCode(account.getCurrencyCode());
+            tmp.setCreationTime(account.getCreationTime());
+            tmp.setLastModifiedTime(account.getLastModifiedTime());
+            // tmp.setClient(account.getClient()); чтобы обновлять клиента отсюда, нужно добавить класс аккаунтДТО, который в сервисе мапить на конкретный аккаунт и так уже и менять клиента
+            return new ResponseEntity<>(accountRepository.save(tmp), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

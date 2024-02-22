@@ -49,7 +49,7 @@ public class Account {
     private AccountStatus accountStatus;
 
     @NotNull(message = "Account balance is mandatory")
-    @DecimalMin("0.00")
+    @DecimalMin(value = "0.00", message = "Balance must be positive")
     @Column(columnDefinition = "decimal(15,2) default '0.0'", nullable = false)
     private BigDecimal balance;
 
@@ -66,7 +66,7 @@ public class Account {
     @Column(name = "updated_at")
     private LocalDateTime lastModifiedTime;
 
-    @ManyToOne(/*mappedBy = "account",*/ cascade = {CascadeType.PERSIST, CascadeType.MERGE}) //?
+    @ManyToOne(targetEntity = Client.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, optional = true)
     @JoinColumn (name = "client_id", referencedColumnName = "id", nullable = false)
     @JsonIdentityReference(alwaysAsId = true)
     private Client client;

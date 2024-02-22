@@ -10,7 +10,7 @@ import java.util.Optional;
 public class AccountController {
 
     @Autowired
-    AccountService accountService;
+    private AccountService accountService;
 
     @PostMapping("/accounts")
     public ResponseEntity<Account> createAccount (Account account){

@@ -3,8 +3,12 @@ package com.example.bank.product;
 import com.example.bank.account.AccountStatus;
 import com.example.bank.account.CurrencyCode;
 import com.example.bank.manager.Manager;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,6 +25,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "products")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Product {
 
     @Id
@@ -33,20 +38,20 @@ public class Product {
     String name;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Product status is mandatory")
+    @NotNull(message = "Product status is mandatory")
     @Column(name = "product_status", columnDefinition = "varchar(50)", nullable = false)
     private ProductStatus productStatus;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Account status is mandatory")
+    @NotNull(message = "Account status is mandatory")
     @Column(name = "currency_code", columnDefinition = "varchar(50)", nullable = false)
     private CurrencyCode currencyCode;
 
-    @NotBlank(message = "Interest rate is mandatory")
+    @NotNull(message = "Interest rate is mandatory")
     @Column(name = "interest_rate", columnDefinition = "decimal(6,4) default '0.0'", nullable = false)
     Double interestRate;
 
-    @NotBlank(message = "Product limit is mandatory")
+    @NotNull(message = "Product limit is mandatory")
     @Column(name = "product_limit", columnDefinition = "integer", nullable = false)
     Integer productLimit;
 
@@ -60,6 +65,7 @@ public class Product {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "manager_id", referencedColumnName = "id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     Manager manager;
 
 }

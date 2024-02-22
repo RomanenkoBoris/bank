@@ -4,8 +4,12 @@ package com.example.bank.agreement;
 import com.example.bank.account.Account;
 import com.example.bank.product.Product;
 import com.example.bank.product.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,21 +26,22 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Agreement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @NotBlank(message = "Interest rate is mandatory")
+    @NotNull(message = "Interest rate is mandatory")
     @Column(name = "interest_rate", columnDefinition = "decimal(6,4) default '0.0'", nullable = false)
     Double interestRate;
 
     @Enumerated(EnumType.STRING)
-    @NotBlank(message = "Agreement status is mandatory")
+    @NotNull(message = "Agreement status is mandatory")
     @Column(name = "agreement_status", columnDefinition = "varchar(50)", nullable = false)
     private ProductStatus agreementStatus;
 
-    @NotBlank(message = "Agreement sum is mandatory")
+    @NotNull(message = "Agreement sum is mandatory")
     @Column(columnDefinition = "decimal(15,2)", nullable = false)
     private BigDecimal sum;
 
@@ -50,10 +55,12 @@ public class Agreement {
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     Product product;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn (name = "account_id", referencedColumnName = "id", nullable = false)
+    @JsonIdentityReference(alwaysAsId = true)
     Account account;
 
 }
