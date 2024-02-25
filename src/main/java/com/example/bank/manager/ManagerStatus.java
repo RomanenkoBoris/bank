@@ -5,4 +5,5 @@ public enum ManagerStatus {
     REGIONAL_MANAGER,
     ASSISTANT_MANAGER,
     OPERATIONS_MANAGER
+
 }

@@ -69,6 +69,18 @@ public class Client {
     @Column (columnDefinition = "varchar(20)", nullable = false)
     private String phone;
 
+    @Length(min = 1, max = 20, message = "Login must be from 1 to 50 characters")
+    @NotBlank (message = "Login is mandatory")
+    @Column (columnDefinition = "varchar(20)", nullable = false, unique = true)
+    private String login;
+
+
+    @Length(min = 1, max = 20, message = "Password must be from 1 to 20 characters")
+    @NotBlank (message = "Password is mandatory")
+    @Column (columnDefinition = "varchar(100)", nullable = false)
+    private String password;
+
+
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime creationTime;

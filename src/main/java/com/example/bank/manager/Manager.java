@@ -42,6 +42,16 @@ public class Manager {
     @Column (name = "last_name", columnDefinition = "varchar(50)", nullable = false)
     private String lastName;
 
+    @Length(min = 1, max = 20, message = "Login must be from 1 to 50 characters")
+    @NotBlank (message = "Login is mandatory")
+    @Column (columnDefinition = "varchar(20)", nullable = false, unique = true)
+    private String login;
+
+    @Length(min = 1, max = 20, message = "Password must be from 1 to 20 characters")
+    @NotBlank (message = "Password is mandatory")
+    @Column (columnDefinition = "varchar(100)", nullable = false)
+    private String password;
+
     @Enumerated(EnumType.STRING)
     @NotNull(message = "Manager status is mandatory")
     @Column(name = "manager_status", columnDefinition = "VARCHAR(50)", nullable = false)
@@ -54,4 +64,6 @@ public class Manager {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime lastModifiedTime;
+
+
 }
