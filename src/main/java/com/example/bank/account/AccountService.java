@@ -21,9 +21,11 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    AccountMapper accountMapper;
 
-    protected ResponseEntity<Account> createAccount(Account account){
-        return new ResponseEntity<>(accountRepository.save(account), HttpStatus.OK);
+    protected ResponseEntity<Account> createAccount(AccountDTO accountDTO){
+        return new ResponseEntity<>(accountRepository.save(accountMapper.toEntity(accountDTO)), HttpStatus.OK);
     }
     protected List<Account> getAccounts (){
         return accountRepository.findAll();

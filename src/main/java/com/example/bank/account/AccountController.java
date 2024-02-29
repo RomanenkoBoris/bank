@@ -14,9 +14,10 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
+
     @PostMapping
-    public ResponseEntity<Account> createAccount (Account account){
-        return accountService.createAccount(account);
+    public ResponseEntity<Account> createAccount (AccountDTO accountDTO){
+        return accountService.createAccount(accountDTO);
     }
 
     @GetMapping
