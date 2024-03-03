@@ -7,10 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -22,6 +19,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Table(name = "managers")
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Manager {
@@ -42,7 +40,7 @@ public class Manager {
     @Column (name = "last_name", columnDefinition = "varchar(50)", nullable = false)
     private String lastName;
 
-    @Length(min = 1, max = 20, message = "Login must be from 1 to 50 characters")
+    @Length(min = 1, max = 20, message = "Login must be from 1 to 20 characters")
     @NotBlank (message = "Login is mandatory")
     @Column (columnDefinition = "varchar(20)", nullable = false, unique = true)
     private String login;
@@ -64,6 +62,5 @@ public class Manager {
     @LastModifiedDate
     @Column(name = "updated_at")
     private LocalDateTime lastModifiedTime;
-
 
 }

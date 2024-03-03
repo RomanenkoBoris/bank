@@ -37,7 +37,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain getChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.authorizeHttpRequests(auth -> auth
-                .requestMatchers(antMatcher(HttpMethod.GET, "/accounts")).hasAnyRole("BRANCH_MANAGER", "REGIONAL_MANAGER")
+                .requestMatchers(antMatcher(HttpMethod.POST, "/accounts")).hasAnyRole("BRANCH_MANAGER", "REGIONAL_MANAGER", "ASSISTANT_MANAGER", "OPERATIONS_MANAGER")
+                .requestMatchers(antMatcher(HttpMethod.GET, "/accounts")).hasAnyRole("BRANCH_MANAGER", "REGIONAL_MANAGER", "ASSISTANT_MANAGER", "OPERATIONS_MANAGER")
                 .requestMatchers(antMatcher(HttpMethod.GET, "/accounts/**")).authenticated()
                 .requestMatchers(antMatcher(HttpMethod.DELETE, "/accounts/**")).hasAnyRole("BRANCH_MANAGER", "REGIONAL_MANAGER", "ASSISTANT_MANAGER", "OPERATIONS_MANAGER")
                 //.requestMatchers(antMatcher(HttpMethod.GET, "/accounts/2")).hasRole("ASSISTANT_MANAGER")

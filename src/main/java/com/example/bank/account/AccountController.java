@@ -26,13 +26,13 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Account> getAccountById (@PathVariable("id") Long id){
+    public ResponseEntity<Object> getAccountById (@PathVariable("id") Long id){
         return accountService.getAccountById(id);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Account> updateAccount (@PathVariable("id") Long id, @RequestBody Account account){
-        return accountService.updateAccount(id, account);
+    public ResponseEntity<Account> updateAccount (@PathVariable("id") Long id, @RequestBody AccountDTO accountDTO){
+        return accountService.updateAccount(id, accountDTO);
     }
 
     @DeleteMapping("/{id}")
